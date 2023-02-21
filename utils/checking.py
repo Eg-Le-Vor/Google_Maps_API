@@ -19,4 +19,4 @@ class Checking:
     @staticmethod
     def check_json_token(result, expected_value):
         assert list(json.loads(result.text)) == expected_value
-        print('Все поля присутствуют.')
+        print('Все поля присутствуют.', end='\n\n')
