@@ -23,4 +23,10 @@ class Test_create_location():
         print('\nМетод GET (проверка PUT)')
         result_get = Google_maps_api.get_location(place_id)
 
+        print('\nМетод DELETE')
+        result_put = Google_maps_api.delete_location(place_id)
+
+        print('\nМетод GET (проверка DELETE)')
+        result_get = Google_maps_api.get_location(place_id)
+
         print()

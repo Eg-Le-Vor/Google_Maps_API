@@ -58,7 +58,7 @@ class Google_maps_api:
         Google_maps_api.status_code(result)
         print(f'Результат: {result.text}')
         return result
-    
+
 
     """Метод для обновления информации о существующей локации"""
 
@@ -70,6 +70,21 @@ class Google_maps_api:
         url = BASE_URL + resources["PUT"] + KEY
         print(f'URL: {url}')
         result = Http_methods.put(url, json_update_location)
+        Google_maps_api.status_code(result)
+        print(f'Результат: {result.text}')
+        return result
+
+
+    """Метод для удаления существующей локации"""
+
+    @staticmethod
+    def delete_location(place_id):
+        with open(os.path.join(DIR_PATH, DELETE_LOCATION_PATH), 'r') as delete_f:
+            json_update_location = json.load(delete_f)
+            json_update_location["place_id"] = place_id
+        url = BASE_URL + resources["DELETE"] + KEY
+        print(f'URL: {url}')
+        result = Http_methods.delete(url, json_update_location)
         Google_maps_api.status_code(result)
         print(f'Результат: {result.text}')
         return result
