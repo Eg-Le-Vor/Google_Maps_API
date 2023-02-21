@@ -19,7 +19,19 @@ resources = {"GET": "/maps/api/place/get/json",
 
 """Методы для тестирования Google Maps API"""
 
-class Google_maps_api():
+class Google_maps_api:
+
+
+    """Метод для проверка статус-кода запроса"""
+
+    @staticmethod
+    def status_code(result):
+        print(f'Статус код {result.status_code}. ', end='')
+        try:
+            assert 200 == result.status_code
+            print('Успешно.')
+        except AssertionError:
+            print('Неуспешно.')
 
 
     """Метод для создания новой локации"""
@@ -29,9 +41,10 @@ class Google_maps_api():
         with open(os.path.join(DIR_PATH, CREATE_LOCATION_PATH), 'r') as create_f:
             json_create_location = json.load(create_f)
         url = BASE_URL + resources["POST"] + KEY
-        print(url)
+        print(f'URL: {url}')
         result = Http_methods.post(url, json_create_location)
-        print(result.text)
+        Google_maps_api.status_code(result)
+        print(f'Результат: {result.text}')
         return result
     
 
@@ -40,7 +53,23 @@ class Google_maps_api():
     @staticmethod
     def get_location(place_id):
         url = BASE_URL + resources["GET"] + KEY + "&place_id=" + place_id
-        print(url)
+        print(f'URL: {url}')
         result = Http_methods.get(url)
-        print(result.text)
+        Google_maps_api.status_code(result)
+        print(f'Результат: {result.text}')
+        return result
+    
+
+    """Метод для обновления информации о существующей локации"""
+
+    @staticmethod
+    def update_location(place_id):
+        with open(os.path.join(DIR_PATH, UPDATE_LOCATION_PATH), 'r') as update_f:
+            json_update_location = json.load(update_f)
+            json_update_location["place_id"] = place_id
+        url = BASE_URL + resources["PUT"] + KEY
+        print(f'URL: {url}')
+        result = Http_methods.put(url, json_update_location)
+        Google_maps_api.status_code(result)
+        print(f'Результат: {result.text}')
         return result
