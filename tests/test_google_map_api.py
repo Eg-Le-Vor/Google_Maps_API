@@ -1,6 +1,17 @@
-import requests
+import os
+import json
 from utils.api import Google_maps_api
 from utils.checking import Checking
+
+
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))  # Путь к директории
+RESPONSE_CREATE_LOCATION_200_PATH = "files/response/create_location_200.json"  # Путь к JSON файлам, которые содержат RESPONSE запросов
+RESPONSE_UPDATE_LOCATION_200_PATH = "files/response/update_location_200.json"
+RESPONSE_DELETE_LOCATION_200_PATH = "files/response/delete_location_200.json"
+RESPONSE_GET_LOCATION_200_PATH = "files/response/get_location_200.json"
+RESPONSE_UPDATE_LOCATION_404_PATH = "files/response/update_location_404.json"
+RESPONSE_DELETE_LOCATION_404_PATH = "files/response/delete_location_404.json"
+RESPONSE_GET_LOCATION_404_PATH = "files/response/get_location_404.json"
 
 
 """Создание, изменение и удаление новой локации"""
@@ -13,27 +24,45 @@ class Test_create_location():
 
         print('\nМетод POST')
         result_post = Google_maps_api.create_location()
-        Checking.status_code(result_post, 200)
+        Checking.check_status_code(result_post, 200)
+        with open(os.path.join(DIR_PATH, RESPONSE_CREATE_LOCATION_200_PATH), 'r') as create_f:
+            response_create_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_post, response_create_location)
         place_id = result_post.json().get('place_id')
 
         print('\nМетод GET (проверка POST)')
         result_get_post = Google_maps_api.get_location(place_id)
-        Checking.status_code(result_get_post, 200)
+        Checking.check_status_code(result_get_post, 200)
+        with open(os.path.join(DIR_PATH, RESPONSE_GET_LOCATION_200_PATH), 'r') as create_f:
+            response_get_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_get_post, response_get_location)
 
         print('\nМетод PUT')
         result_put = Google_maps_api.update_location(place_id)
-        Checking.status_code(result_put, 200)
+        Checking.check_status_code(result_put, 200)
+        with open(os.path.join(DIR_PATH, RESPONSE_UPDATE_LOCATION_200_PATH), 'r') as create_f:
+            response_update_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_put, response_update_location)
 
         print('\nМетод GET (проверка PUT)')
         result_get_put = Google_maps_api.get_location(place_id)
-        Checking.status_code(result_get_put, 200)
+        Checking.check_status_code(result_get_put, 200)
+        with open(os.path.join(DIR_PATH, RESPONSE_GET_LOCATION_200_PATH), 'r') as create_f:
+            response_get_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_get_put, response_get_location)
 
         print('\nМетод DELETE')
         result_delete = Google_maps_api.delete_location(place_id)
-        Checking.status_code(result_delete, 200)
+        Checking.check_status_code(result_delete, 200)
+        with open(os.path.join(DIR_PATH, RESPONSE_DELETE_LOCATION_200_PATH), 'r') as create_f:
+            response_delete_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_delete, response_delete_location)
 
         print('\nМетод GET (проверка DELETE)')
         result_get_delete = Google_maps_api.get_location(place_id)
-        Checking.status_code(result_get_delete, 404)
+        Checking.check_status_code(result_get_delete, 404)
+        with open(os.path.join(DIR_PATH, RESPONSE_GET_LOCATION_404_PATH), 'r') as create_f:
+            response_get_location = list(json.load(create_f).keys())
+        Checking.check_json_token(result_get_delete, response_get_location)
 
         print()

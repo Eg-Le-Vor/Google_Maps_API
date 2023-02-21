@@ -6,9 +6,9 @@ from utils.http_methods import Http_methods
 BASE_URL = "https://rahulshettyacademy.com"  # Базовый URL
 KEY = "?key=qaclick123"  # Параметр для всех запросов
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))  # Путь к директории
-CREATE_LOCATION_PATH = "files/create_location.json"  # Путь к JSON файлам
-UPDATE_LOCATION_PATH = "files/update_location.json"
-DELETE_LOCATION_PATH = "files/delete_location.json"
+BODY_CREATE_LOCATION_PATH = "files/body/create_location.json"  # Путь к JSON файлам, которые содержат BODY запросов
+BODY_UPDATE_LOCATION_PATH = "files/body/update_location.json"
+BODY_DELETE_LOCATION_PATH = "files/body/delete_location.json"
 
 
 resources = {"GET": "/maps/api/place/get/json",  
@@ -26,11 +26,11 @@ class Google_maps_api:
 
     @staticmethod
     def create_location():
-        with open(os.path.join(DIR_PATH, CREATE_LOCATION_PATH), 'r') as create_f:
-            json_create_location = json.load(create_f)
+        with open(os.path.join(DIR_PATH, BODY_CREATE_LOCATION_PATH), 'r') as create_f:
+            body_create_location = json.load(create_f)
         url = BASE_URL + resources["POST"] + KEY
         print(f'URL: {url}')
-        result = Http_methods.post(url, json_create_location)
+        result = Http_methods.post(url, body_create_location)
         print(f'Результат: {result.text}')
         return result
     
@@ -50,12 +50,12 @@ class Google_maps_api:
 
     @staticmethod
     def update_location(place_id):
-        with open(os.path.join(DIR_PATH, UPDATE_LOCATION_PATH), 'r') as update_f:
-            json_update_location = json.load(update_f)
-            json_update_location["place_id"] = place_id
+        with open(os.path.join(DIR_PATH, BODY_UPDATE_LOCATION_PATH), 'r') as update_f:
+            body_update_location = json.load(update_f)
+            body_update_location["place_id"] = place_id
         url = BASE_URL + resources["PUT"] + KEY
         print(f'URL: {url}')
-        result = Http_methods.put(url, json_update_location)
+        result = Http_methods.put(url, body_update_location)
         print(f'Результат: {result.text}')
         return result
 
@@ -64,11 +64,11 @@ class Google_maps_api:
 
     @staticmethod
     def delete_location(place_id):
-        with open(os.path.join(DIR_PATH, DELETE_LOCATION_PATH), 'r') as delete_f:
-            json_update_location = json.load(delete_f)
-            json_update_location["place_id"] = place_id
+        with open(os.path.join(DIR_PATH, BODY_DELETE_LOCATION_PATH), 'r') as delete_f:
+            body_update_location = json.load(delete_f)
+            body_update_location["place_id"] = place_id
         url = BASE_URL + resources["DELETE"] + KEY
         print(f'URL: {url}')
-        result = Http_methods.delete(url, json_update_location)
+        result = Http_methods.delete(url, body_update_location)
         print(f'Результат: {result.text}')
         return result
