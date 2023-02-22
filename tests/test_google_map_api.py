@@ -1,5 +1,6 @@
 import os
 import json
+import allure
 from utils.api import Google_maps_api
 from utils.checking import Checking
 
@@ -16,8 +17,10 @@ RESPONSE_GET_LOCATION_404_PATH = "files/response/get_location_404.json"
 
 """Создание, изменение и удаление новой локации"""
 
+@allure.epic("Test create place")
 class Test_create_location():
 
+    @allure.description("Test create, update, delete place")
     def test_create_location(self):
 
         print()  # Вывод пустой строки для более наглядного результата теста
