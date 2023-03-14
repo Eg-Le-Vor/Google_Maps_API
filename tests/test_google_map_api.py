@@ -21,7 +21,7 @@ RESPONSE_GET_LOCATION_404_PATH = "files/response/get_location_404.json"
 class Test_create_location():
 
     @allure.description("Test create, update, delete place")
-    def test_create_location(self):
+    def test_create_location(self, set_group, set_up):
 
         print()  # Вывод пустой строки для более наглядного результата теста
 
