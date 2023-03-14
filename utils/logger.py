@@ -2,7 +2,7 @@ import datetime
 import os
 
 
-LOGS_PATH = "logs/log_"
+LOGS_PATH = "../logs/log_"
 LOGS_EXT = ".log"
 
 
@@ -20,7 +20,7 @@ class Logger():
 
     @classmethod
     def write_log_to_file(cls, data: str):
-        with open(cls.file_name, 'a', encoding='utf-8') as logger_file:
+        with open(cls.file_name, 'w+', encoding='utf-8') as logger_file:
             logger_file.write(data)
 
 
